@@ -1,26 +1,35 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "banqueiro.h"
+#include "processos.h"
 
-int requisicao_recursos(int pid, int recursos) {
 
+int requisicao_recursos(int pid, int **necessita){
 
+    int j;
+
+    for (j = 0; j < n_recursos; ++j) {
+        if(necessita[pid][j] <= (disponivel[j] - alocado[j])) {
+            continue;
+        }
+        else{
+            return -1;
+        }
+    }
+
+    return 0;
 }
 
-int** alocarMatriz(int Linhas,int Colunas){ //Recebe a quantidade de Linhas e Colunas como Parâmetro
+int libera_recursos(int pid, int **recursos){
 
-  int i,j; //Variáveis Auxiliares
+    int j;
 
-  int **m = (int**)malloc(Linhas * sizeof(int*)); //Aloca um Vetor de Ponteiros
+    for (j = 0; j < n_recursos; ++j) {
+        alocado[j] = alocado[j] - recursos[pid][j];
+        recursos[pid][j] = -1;
+    }
 
-  for (i = 0; i < Linhas; i++){ //Percorre as linhas do Vetor de Ponteiros
-       m[i] = (int*) malloc(Colunas * sizeof(int)); //Aloca um Vetor de Inteiros para cada posição do Vetor de Ponteiros.
-       for (j = 0; j < Colunas; j++){ //Percorre o Vetor de Inteiros atual.
-            m[i][j] = 0; //Inicializa com 0.
-       }
-  }
-return m; //Retorna o Ponteiro para a Matriz Alocada
+    return 0;
 }
