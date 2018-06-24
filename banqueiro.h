@@ -1,2 +1,2 @@
-int requisicao_recursos(int pid, int **recursos);
-int libera_recursos(int pid, int **recursos);
+int requisicao_recursos(int i, int *recursos);
+int libera_recursos(int i, int *recursos);

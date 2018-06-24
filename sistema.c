@@ -1,23 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include<string.h>
+#include <string.h>
+#include <pthread.h>
 #include <windows.h>
 #include "banqueiro.h"
 #include "processos.h"
 
+void * minha_thread (void * );
+
 int main(int argc, char *argv[]) {
 
-	if (argc <= 2) {
+	if (argc <= 4) {
         printf("Falta argumentos!");
         return -1;
     }
 
 	n_recursos = argc - 4;
 	num_processos = atoi(argv[2]) ;
-	int i,j;
+	int i, *necessita;
+	pthread_t *pth;
 
-	necessita = alocarMatriz(num_processos,n_recursos);
-	maximo = alocarMatriz(num_processos,n_recursos);
+
+	//necessita = alocarMatriz(num_processos,n_recursos);
+	//maximo = alocarMatriz(num_processos,n_recursos);
 	alocado = alocaVetor(n_recursos);
 	disponivel = alocaVetor(n_recursos);
 	vet_alocacao = alocaVetor(n_recursos);
@@ -27,57 +32,36 @@ int main(int argc, char *argv[]) {
 		disponivel[i] = vet_alocacao[i];
 	}
 
-	for (i = 0; i < num_processos; ++i)	{
-        alocado[i] = 0;
-		for (j = 0; j < n_recursos; ++j)
-		{
-			maximo[i][j] = rand() % (disponivel[j] + 1);
+    pth = (pthread_t *) malloc(sizeof(pthread_t) * num_processos);
 
-			necessita[i][j] = maximo[i][j];
-		}
+    for(i = 0; i < num_processos; i ++){
+		pthread_create(&(pth[i]), NULL, minha_thread,&i);
 	}
 
-	printf("Quanto cada processo necessita\n");
-	for (i = 0; i < num_processos; ++i)	{
-		for (j = 0; j < n_recursos; ++j)
-		{
-            printf("%d ",necessita[i][j]);
-		}
-		printf("\n");
+	for(i = 0; i < num_processos; i ++){
+		pthread_join(pth[i], NULL);
 	}
 
-	int pid = 0;
-	int res;
+    void * minha_thread (void * apelido ){
 
-    while(pid <= num_processos-1){
+        while(1){
 
-        if(requisicao_recursos(pid,necessita) == 0){
+            necessita = radom();
 
-            for(i=0;i<n_recursos;i++){
-                alocado[i] = alocado[i] + necessita[pid][i];
+            if(requisicao_recursos(1,necessita) == 0){
+
+                Sleep(2);
+
+                libera_recursos(1, necessita);
             }
-            Sleep(2);
-            res = libera_recursos(pid, necessita);
         }
 
-
-        pid++;
+        return 0;
     }
 
-    printf("\nDepois de finalizado\n");
-	for (i = 0; i < num_processos; ++i)	{
-		for (j = 0; j < n_recursos; ++j)
-		{
-            printf("%d ",necessita[i][j]);
-		}
-        printf("\n");
-	}
-
-	desalocaMatriz(necessita);
-	desalocaMatriz(maximo);
-	desalocarVetor(alocado);
-	desalocarVetor(disponivel);
-	desalocarVetor(vet_alocacao);
-
-	return 0;
+	//desalocaMatriz(necessita);
+	//desalocaMatriz(maximo);
+	//desalocarVetor(alocado);
+	//desalocarVetor(disponivel);
+	//desalocarVetor(vet_alocacao);
 }

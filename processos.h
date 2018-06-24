@@ -1,5 +1,8 @@
 int n_recursos;
 int num_processos;
+//int pid = 0;
+
+void * minha_thread ( void *);
 
 int **necessita;
 int **maximo;
@@ -8,6 +11,7 @@ int *disponivel;
 int *vet_alocacao;
 
 
+int * radom();
 int * alocaVetor(int n_recursos);
 int ** alocarMatriz(int num_processos, int n_recursos);
 void desalocaMatriz(int **matriz);

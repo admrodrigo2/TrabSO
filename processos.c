@@ -6,6 +6,19 @@
 #include "banqueiro.h"
 #include "processos.h"
 
+int * radom(){
+
+	int j;
+	int *req = alocaVetor(n_recursos);
+
+	for (j = 0; j < n_recursos; ++j) {
+        req[j] = rand() % (disponivel[j] + 1);
+    }
+
+	return req;
+}
+
+
 int** alocarMatriz(int Linhas,int Colunas){ //Recebe a quantidade de Linhas e Colunas como Parâmetro
 
     int i; //Variáveis Auxiliares

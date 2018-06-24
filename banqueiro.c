@@ -6,29 +6,31 @@
 #include "processos.h"
 
 
-int requisicao_recursos(int pid, int **necessita){
+int requisicao_recursos(int i, int *necessita){
 
     int j;
 
     for (j = 0; j < n_recursos; ++j) {
-        if(necessita[pid][j] <= (disponivel[j] - alocado[j])) {
-            continue;
-        }
-        else{
+        if(necessita[j] >= disponivel[j]) {
             return -1;
         }
+    }
+
+    for (j = 0; j < n_recursos; ++j) {
+        alocado[j] += necessita[j];
+        disponivel[j]--;
     }
 
     return 0;
 }
 
-int libera_recursos(int pid, int **recursos){
+int libera_recursos(int i, int *recursos){
 
     int j;
 
     for (j = 0; j < n_recursos; ++j) {
-        alocado[j] = alocado[j] - recursos[pid][j];
-        recursos[pid][j] = -1;
+        alocado[j] = alocado[j] - recursos[j];
+        disponivel[j]++;
     }
 
     return 0;
