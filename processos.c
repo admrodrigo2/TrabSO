@@ -6,10 +6,10 @@
 #include "banqueiro.h"
 #include "processos.h"
 
-int * radom(){
+int * random(){
 
 	int j;
-	int *req = alocaVetor(n_recursos);
+	int * req = alocaVetor(n_recursos);
 
 	for (j = 0; j < n_recursos; ++j) {
         req[j] = rand() % (disponivel[j] + 1);

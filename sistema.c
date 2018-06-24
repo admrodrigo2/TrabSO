@@ -10,13 +10,12 @@ void * minha_thread (void * apelido){
 
     while(1){
 
-        necessita = random();
+        *necessita = random();
 
-        if(requisicao_recursos(1,necessita) == 0){
-
+        if(requisicao_recursos(1,*necessita) == 0){
             Sleep(2);
 
-            libera_recursos(1, necessita);
+            libera_recursos(1, *necessita);
         }
     }
 
@@ -32,12 +31,12 @@ int main(int argc, char *argv[]) {
 
 	n_recursos = argc - 4;
 	num_processos = atoi(argv[2]) ;
-	int i, *necessita;
+	int i;
 	pthread_t *pth;
 
 
-	//necessita = alocarMatriz(num_processos,n_recursos);
-	//maximo = alocarMatriz(num_processos,n_recursos);
+	necessita = alocarMatriz(num_processos,n_recursos);
+	maximo = alocarMatriz(num_processos,n_recursos);
 	alocado = alocaVetor(n_recursos);
 	disponivel = alocaVetor(n_recursos);
 	vet_alocacao = alocaVetor(n_recursos);
@@ -57,9 +56,10 @@ int main(int argc, char *argv[]) {
 		pthread_join(pth[i], NULL);
 	}
 
-	//desalocaMatriz(necessita);
-	//desalocaMatriz(maximo);
-	//desalocarVetor(alocado);
-	//desalocarVetor(disponivel);
-	//desalocarVetor(vet_alocacao);
+    printf("terminou o programa!");
+	desalocaMatriz(necessita);
+	desalocaMatriz(maximo);
+	desalocarVetor(alocado);
+	desalocarVetor(disponivel);
+	desalocarVetor(vet_alocacao);
 }

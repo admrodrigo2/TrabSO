@@ -11,7 +11,7 @@ int *disponivel;
 int *vet_alocacao;
 
 
-int * radom();
+int * random();
 int * alocaVetor(int n_recursos);
 int ** alocarMatriz(int num_processos, int n_recursos);
 void desalocaMatriz(int **matriz);
