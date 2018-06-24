@@ -6,7 +6,22 @@
 #include "banqueiro.h"
 #include "processos.h"
 
-void * minha_thread (void * );
+void * minha_thread (void * apelido){
+
+    while(1){
+
+        necessita = random();
+
+        if(requisicao_recursos(1,necessita) == 0){
+
+            Sleep(2);
+
+            libera_recursos(1, necessita);
+        }
+    }
+
+    return 0;
+}
 
 int main(int argc, char *argv[]) {
 
@@ -35,29 +50,12 @@ int main(int argc, char *argv[]) {
     pth = (pthread_t *) malloc(sizeof(pthread_t) * num_processos);
 
     for(i = 0; i < num_processos; i ++){
-		pthread_create(&(pth[i]), NULL, minha_thread,&i);
+		pthread_create(&(pth[i]), NULL, minha_thread, &i);
 	}
 
 	for(i = 0; i < num_processos; i ++){
 		pthread_join(pth[i], NULL);
 	}
-
-    void * minha_thread (void * apelido ){
-
-        while(1){
-
-            necessita = radom();
-
-            if(requisicao_recursos(1,necessita) == 0){
-
-                Sleep(2);
-
-                libera_recursos(1, necessita);
-            }
-        }
-
-        return 0;
-    }
 
 	//desalocaMatriz(necessita);
 	//desalocaMatriz(maximo);
