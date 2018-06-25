@@ -2,6 +2,7 @@ int n_recursos;
 int num_processos;
 //int pid = 0;
 
+
 void * minha_thread ( void *);
 
 int **necessita;

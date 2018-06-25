@@ -6,6 +6,8 @@
 #include "banqueiro.h"
 #include "processos.h"
 
+
+
 int * random(){
 
 	int j;
@@ -65,4 +67,3 @@ void desalocarVetor(int *vetor){
     free(vetor);
     vetor = NULL;
 }
-
